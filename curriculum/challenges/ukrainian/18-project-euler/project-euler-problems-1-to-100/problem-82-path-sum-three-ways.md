@@ -16,7 +16,7 @@ The minimal path sum in the 5 by 5 matrix below, by starting in any cell in the 
   \color{red}{201} & \color{red}{96} & \color{red}{342} & 965 & 150\\\\   630 & 803 & 746 & 422 & 111\\\\
   537 & 699 & 497 & 121 & 956\\\\ 805 & 732 & 524 & 37 & 331 \end{pmatrix}$$
 
-Find the minimal path sum from the left column to the right column in `matrix`, a 2D array representing a matrix. The maximum matrix size used in tests will be 80 by 80.
+Find the minimal path sum from the left column to the right column in `matrix`, a 2D array representing a matrix. Максимальний розмір матриці, що використовується в тестах, становить 80х80.
 
 # --hints--
 
