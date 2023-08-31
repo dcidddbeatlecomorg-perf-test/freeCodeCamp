@@ -1,14 +1,10 @@
 import Loadable from '@loadable/component';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import Media from 'react-responsive';
-import { useFeature } from '@growthbook/growthbook-react';
+import { useMediaQuery } from 'react-responsive';
 import { isLanding } from '../../../utils/path-parsers';
 import { Link, SkeletonSprite } from '../../helpers';
-import {
-  SEARCH_EXPOSED_WIDTH,
-  DONATE_NAV_EXPOSED_WIDTH
-} from '../../../../../config/misc';
+import { SEARCH_EXPOSED_WIDTH } from '../../../../config/misc';
 import MenuButton from './menu-button';
 import NavLinks, { type NavLinksProps } from './nav-links';
 import NavLogo from './nav-logo';
@@ -39,8 +35,9 @@ const UniversalNav = ({
 }: UniversalNavProps): JSX.Element => {
   const { pending } = fetchState;
   const { t } = useTranslation();
-
-  const exposeDonateButton = useFeature('expose_donate_button').on;
+  const isSearchExposedWidth = useMediaQuery({
+    query: `(min-width: ${SEARCH_EXPOSED_WIDTH}px)`
+  });
 
   const search =
     typeof window !== `undefined` && isLanding(window.location.pathname) ? (
@@ -55,7 +52,7 @@ const UniversalNav = ({
       className={`universal-nav${displayMenu ? ' expand-nav' : ''}`}
       id='universal-nav'
     >
-      <Media minWidth={SEARCH_EXPOSED_WIDTH + 1}>
+      {isSearchExposedWidth && (
         <div
           className={`universal-nav-left${
             displayMenu ? ' display-search' : ''
@@ -63,7 +60,7 @@ const UniversalNav = ({
         >
           {search}
         </div>
-      </Media>
+      )}
       <Link id='universal-nav-logo' to='/learn'>
         <NavLogo />
       </Link>
@@ -74,18 +71,6 @@ const UniversalNav = ({
           </div>
         ) : (
           <>
-            {!user?.isDonating && exposeDonateButton && (
-              <Media minWidth={DONATE_NAV_EXPOSED_WIDTH + 1}>
-                <Link
-                  sameTab={false}
-                  to='/donate'
-                  data-test-label='nav-donate-button'
-                  className='exposed-button-nav'
-                >
-                  {t('buttons.donate')}
-                </Link>
-              </Media>
-            )}
             <LanguageList />
             <MenuButton
               displayMenu={displayMenu}
@@ -94,7 +79,7 @@ const UniversalNav = ({
               showMenu={showMenu}
               user={user}
             />
-            <Media maxWidth={SEARCH_EXPOSED_WIDTH}>{search}</Media>
+            {!isSearchExposedWidth && search}
             <NavLinks
               displayMenu={displayMenu}
               hideMenu={hideMenu}

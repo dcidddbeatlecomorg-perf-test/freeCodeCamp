@@ -1,10 +1,33 @@
 import { type FastifyPluginCallbackTypebox } from '@fastify/type-provider-typebox';
-import badWordsFilter from 'bad-words';
+import { isProfane } from 'no-profanity';
 import { isValidUsername } from '../../../utils/validate';
 // we have to use this file as JavaScript because it is used by the old api.
 import { blocklistedUsernames } from '../../../config/constants.js';
 import { schemas } from '../schemas';
 
+/**
+ * Validate an image url.
+ *
+ * @param picture The url to check.
+ * @returns Whether the url is a picture with a valid protocol.
+ */
+export const isPictureWithProtocol = (picture?: string): boolean => {
+  if (!picture) return false;
+  try {
+    const url = new URL(picture);
+    return url.protocol == 'http:' || url.protocol == 'https:';
+  } catch {
+    return false;
+  }
+};
+
+/**
+ * Plugin for all endpoints related to user settings.
+ *
+ * @param fastify The Fastify instance.
+ * @param _options Fastify options I guess?
+ * @param done Callback to signal that the logic has completed.
+ */
 export const settingRoutes: FastifyPluginCallbackTypebox = (
   fastify,
   _options,
@@ -158,7 +181,7 @@ export const settingRoutes: FastifyPluginCallbackTypebox = (
           } as const;
         }
 
-        const isProfane = new badWordsFilter().isProfane(newUsername);
+        const isUserNameProfane = isProfane(newUsername);
         const onBlocklist = blocklistedUsernames.includes(newUsername);
 
         const usernameTaken =
@@ -168,7 +191,7 @@ export const settingRoutes: FastifyPluginCallbackTypebox = (
                 where: { username: newUsername }
               });
 
-        if (usernameTaken || isProfane || onBlocklist) {
+        if (usernameTaken || isUserNameProfane || onBlocklist) {
           void reply.code(400);
           return {
             message: 'flash.username-taken',
@@ -188,6 +211,36 @@ export const settingRoutes: FastifyPluginCallbackTypebox = (
           message: 'flash.username-updated',
           type: 'success',
           username: newUsernameDisplay
+        } as const;
+      } catch (err) {
+        fastify.log.error(err);
+        void reply.code(500);
+        return { message: 'flash.wrong-updating', type: 'danger' } as const;
+      }
+    }
+  );
+  fastify.put(
+    '/update-my-about',
+    {
+      schema: schemas.updateMyAbout
+    },
+    async (req, reply) => {
+      const hasProtocol = isPictureWithProtocol(req.body.picture);
+
+      try {
+        await fastify.prisma.user.update({
+          where: { id: req.session.user.id },
+          data: {
+            about: req.body.about,
+            name: req.body.name,
+            location: req.body.location,
+            ...(hasProtocol && { picture: req.body.picture })
+          }
+        });
+
+        return {
+          message: 'flash.updated-about-me',
+          type: 'success'
         } as const;
       } catch (err) {
         fastify.log.error(err);

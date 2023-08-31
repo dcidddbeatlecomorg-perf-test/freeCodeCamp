@@ -2,6 +2,8 @@ Siga estas orientações para criar um ambiente de desenvolvimento para o freeCo
 
 ## Escolha entre o Gitpod ou seu próprio computador (configuração local)
 
+> [!ATTENTION] **Observação:** o freeCodeCamp não roda nativamente no Windows 10 ou 11. Você precisará usar o WSL2. Você pode seguir [este guia](how-to-setup-wsl.md) para configurar o WSL2. Você não pode usar o prompt de comando, o Git Bash ou o PowerShell para executar freeCodeCamp nativamente no Windows.
+
 Se você deseja fazer uma contribuição única, use o Gitpod para fazer alterações. A configuração do Gitpod abre um ambiente pronto para código em poucos minutos no seu navegador. Para contribuir a longo prazo, recomendamos que você instale o freeCodeCamp em seu computador.
 
 Aqui estão alguns prós e contras que devem ajudá-lo a decidir qual opção é a melhor para você:
@@ -14,8 +16,6 @@ Aqui estão alguns prós e contras que devem ajudá-lo a decidir qual opção é
 | Mais lento e pode levar alguns minutos para abrir                                     | Mais rápido e pode ser iniciado em segundos                                      |
 | Precisa de uma conexão com a internet para funcionar                                  | Conexão com a internet mínima necessária (uma vez configurada)                   |
 | Algumas tarefas, como a compilação e testes, podem demorar mais para serem concluídas | Completa as tarefas mais rapidamente (dependendo das capacidades da sua máquina) |
-
-> [!ATTENTION] **Observação:** se você estiver usando o Windows 10 ou 11, precisará usar o WSL2. Você pode seguir [este guia](how-to-setup-wsl.md) para configurar o WSL2. Você não pode usar o prompt de comando, o Git Bash ou o PowerShell para executar freeCodeCamp nativamente no Windows.
 
 ### Como preparar um espaço de trabalho no GitPod
 
@@ -274,6 +274,14 @@ Em seguida, vamos criar o banco de dados. Nesta etapa, executamos o comando abai
 pnpm run seed
 ```
 
+Por padrão, você será conectado como um novo usuário sem nenhuma certificação concluída. Execute o seguinte comando se precisar desenvolver com certificados concluídos:
+
+```console
+pnpm run seed:certified-user
+```
+
+> [!WARNING] Executar `pnpm run seed:certified-user` desconectará você. Você precisará limpar os cookies do seu navegador e fazer login novamente.
+
 #### Passo 4: Inicie o aplicativo de client do freeCodeCamp e o servidor de API
 
 Agora você pode iniciar o servidor de API e as aplicações de client.
@@ -298,9 +306,10 @@ Se você tiver problemas durante a instalação, confira a [seção de solução
 
 Uma rápida referência aos comandos que você precisará ao trabalhar localmente.
 
-| comando            | descrição                                                                    |
-| ------------------ | ---------------------------------------------------------------------------- |
-| `pnpm install`     | Instala/reinstala todas as dependências e inicializa os diferentes serviços. |
-| `pnpm run seed`    | Cria usuários de testes autorizados e os insere no MongoDB.                  |
-| `pnpm run develop` | Inicia o servidor de API freeCodeCamp e aplicativos Cliente.                 |
-| `pnpm run clean`   | Desinstala todas as dependências e limpa os caches.                          |
+| comando                        | descrição                                                                                          |
+| ------------------------------ | -------------------------------------------------------------------------------------------------- |
+| `pnpm install`                 | Instala/reinstala todas as dependências e inicializa os diferentes serviços.                       |
+| `pnpm run seed`                | Cria usuários de testes autorizados e os insere no MongoDB.                                        |
+| `pnpm run seed:certified-user` | Cria usuários de testes autorizados com certificações totalmente completas e os insere no MongoDB. |
+| `pnpm run develop`             | Inicia o servidor de API freeCodeCamp e aplicativos Cliente.                                       |
+| `pnpm run clean`               | Desinstala todas as dependências e limpa os caches.                                                |

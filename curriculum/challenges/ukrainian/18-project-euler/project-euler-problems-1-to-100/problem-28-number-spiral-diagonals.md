@@ -8,7 +8,7 @@ dashedName: problem-28-number-spiral-diagonals
 
 # --description--
 
-Починаючи з числа 1 і рухаючись праворуч за годинниковою стрілкою, утворюється спіраль 5 на 5:
+Починаючи з числа 1 і рухаючись праворуч за годинниковою стрілкою, утворюється спіраль 5х5:
 
 <div style='padding-left: 4em;'>
   <div style='color: red; display: inline;'>21</div> 22 23 24 <div style='color: red; display: inline;'>25</div><br>
@@ -18,9 +18,9 @@ dashedName: problem-28-number-spiral-diagonals
   <div style='color: red; display: inline;'>17</div> 16 15 14 <div style='color: red; display: inline;'>13</div><br>
 </div>
 
-Можна переконатися, що сума чисел по діагоналях дорівнює 101.
+Можна довести, що сума чисел по діагоналях дорівнює 101.
 
-Чому дорівнює сума чисел по діагоналях у спіралі `n` на `n`, створеній так само?
+Чому дорівнює сума чисел по діагоналях у спіралі `n`х`n`, створеній так само?
 
 # --hints--
 

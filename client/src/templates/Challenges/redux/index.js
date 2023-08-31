@@ -20,17 +20,16 @@ const initialState = {
   challengeMeta: {
     superBlock: '',
     block: '',
+    blockHashSlug: '/',
     id: '',
+    nextBlock: '',
     nextChallengePath: '/',
     prevChallengePath: '/',
     challengeType: -1
   },
   challengeTests: [],
   consoleOut: [],
-  examResults: {
-    timeInSeconds: 0,
-    results: []
-  },
+  userCompletedExam: null,
   hasCompletedBlock: false,
   isBuildEnabled: true,
   isResetting: false,
@@ -40,7 +39,9 @@ const initialState = {
     help: false,
     video: false,
     reset: false,
+    exitExam: false,
     finishExam: false,
+    examResults: false,
     projectPreview: false,
     shortcuts: false
   },
@@ -50,7 +51,8 @@ const initialState = {
   projectFormValues: {},
   successMessage: 'Happy Coding!',
   isAdvancing: false,
-  chapterSlug: ''
+  chapterSlug: '',
+  isSubmitting: false
 };
 
 export const epics = [completionEpic, createQuestionEpic, codeStorageEpic];
@@ -62,6 +64,18 @@ export const sagas = [
 
 export const reducer = handleActions(
   {
+    [actionTypes.submitChallenge]: state => ({
+      ...state,
+      isSubmitting: true
+    }),
+    [actionTypes.submitChallengeComplete]: state => ({
+      ...state,
+      isSubmitting: false
+    }),
+    [actionTypes.submitChallengeError]: state => ({
+      ...state,
+      isSubmitting: false
+    }),
     [actionTypes.createFiles]: (state, { payload }) => ({
       ...state,
       challengeFiles: payload,
@@ -199,9 +213,9 @@ export const reducer = handleActions(
       ...state,
       chapterSlug: payload
     }),
-    [actionTypes.setExamResults]: (state, { payload }) => ({
+    [actionTypes.setUserCompletedExam]: (state, { payload }) => ({
       ...state,
-      examResults: payload
+      userCompletedExam: payload
     }),
     [actionTypes.closeModal]: (state, { payload }) => ({
       ...state,

@@ -19,7 +19,9 @@ export enum SuperBlocks {
   TheOdinProject = 'the-odin-project',
   ProjectEuler = 'project-euler',
   CollegeAlgebraPy = 'college-algebra-with-python',
-  ExampleCertification = 'example-certification'
+  FoundationalCSharp = 'foundational-c-sharp-with-microsoft',
+  ExampleCertification = 'example-certification',
+  UpcomingPython = 'upcoming-python'
 }
 
 /*
@@ -30,13 +32,14 @@ export enum SuperBlocks {
  * 'Upcoming' is for development -> not shown on stag or prod anywhere
  */
 export enum SuperBlockStages {
-  FrontEnd = 'frontend',
-  Backend = 'backend',
-  Python = 'python',
-  Extra = 'extra',
-  Legacy = 'legacy',
-  New = 'new',
-  Upcoming = 'upcoming'
+  FrontEnd,
+  Backend,
+  Python,
+  Professional,
+  Extra,
+  Legacy,
+  New,
+  Upcoming
 }
 
 export type SuperBlockOrder = {
@@ -64,6 +67,7 @@ export const superBlockOrder: SuperBlockOrder = {
     SuperBlocks.MachineLearningPy,
     SuperBlocks.CollegeAlgebraPy
   ],
+  [SuperBlockStages.Professional]: [SuperBlocks.FoundationalCSharp],
   [SuperBlockStages.Extra]: [
     SuperBlocks.CodingInterviewPrep,
     SuperBlocks.ProjectEuler
@@ -73,7 +77,8 @@ export const superBlockOrder: SuperBlockOrder = {
   [SuperBlockStages.Upcoming]: [
     SuperBlocks.JsAlgoDataStructNew,
     SuperBlocks.TheOdinProject,
-    SuperBlocks.ExampleCertification
+    SuperBlocks.ExampleCertification,
+    SuperBlocks.UpcomingPython
   ]
 };
 
@@ -91,44 +96,56 @@ export const notAuditedSuperBlocks: NotAuditedSuperBlocks = {
     SuperBlocks.InfoSec,
     SuperBlocks.MachineLearningPy,
     SuperBlocks.CollegeAlgebraPy,
+    SuperBlocks.FoundationalCSharp,
     SuperBlocks.CodingInterviewPrep,
     SuperBlocks.ProjectEuler,
     SuperBlocks.JsAlgoDataStructNew,
-    SuperBlocks.TheOdinProject
+    SuperBlocks.TheOdinProject,
+    SuperBlocks.UpcomingPython
   ],
   [Languages.Chinese]: [
     SuperBlocks.CollegeAlgebraPy,
+    SuperBlocks.FoundationalCSharp,
     SuperBlocks.CodingInterviewPrep,
     SuperBlocks.ProjectEuler,
     SuperBlocks.JsAlgoDataStructNew,
-    SuperBlocks.TheOdinProject
+    SuperBlocks.TheOdinProject,
+    SuperBlocks.UpcomingPython
   ],
   [Languages.ChineseTraditional]: [
     SuperBlocks.CollegeAlgebraPy,
+    SuperBlocks.FoundationalCSharp,
     SuperBlocks.CodingInterviewPrep,
     SuperBlocks.ProjectEuler,
     SuperBlocks.JsAlgoDataStructNew,
-    SuperBlocks.TheOdinProject
+    SuperBlocks.TheOdinProject,
+    SuperBlocks.UpcomingPython
   ],
   [Languages.Italian]: [
+    SuperBlocks.FoundationalCSharp,
     SuperBlocks.JsAlgoDataStructNew,
-    SuperBlocks.TheOdinProject
+    SuperBlocks.TheOdinProject,
+    SuperBlocks.UpcomingPython
   ],
   [Languages.Portuguese]: [
-    SuperBlocks.CollegeAlgebraPy,
-    SuperBlocks.ProjectEuler,
-    SuperBlocks.JsAlgoDataStructNew
+    SuperBlocks.FoundationalCSharp,
+    SuperBlocks.JsAlgoDataStructNew,
+    SuperBlocks.UpcomingPython
   ],
   [Languages.Ukrainian]: [
+    SuperBlocks.FoundationalCSharp,
     SuperBlocks.CodingInterviewPrep,
     SuperBlocks.ProjectEuler,
-    SuperBlocks.JsAlgoDataStructNew
+    SuperBlocks.JsAlgoDataStructNew,
+    SuperBlocks.UpcomingPython
   ],
   [Languages.Japanese]: [
     SuperBlocks.CollegeAlgebraPy,
+    SuperBlocks.FoundationalCSharp,
     SuperBlocks.ProjectEuler,
     SuperBlocks.JsAlgoDataStructNew,
-    SuperBlocks.TheOdinProject
+    SuperBlocks.TheOdinProject,
+    SuperBlocks.UpcomingPython
   ],
   [Languages.German]: [
     SuperBlocks.RespWebDesignNew,
@@ -141,10 +158,12 @@ export const notAuditedSuperBlocks: NotAuditedSuperBlocks = {
     SuperBlocks.InfoSec,
     SuperBlocks.MachineLearningPy,
     SuperBlocks.CollegeAlgebraPy,
+    SuperBlocks.FoundationalCSharp,
     SuperBlocks.CodingInterviewPrep,
     SuperBlocks.ProjectEuler,
     SuperBlocks.JsAlgoDataStructNew,
-    SuperBlocks.TheOdinProject
+    SuperBlocks.TheOdinProject,
+    SuperBlocks.UpcomingPython
   ],
   [Languages.Arabic]: [
     SuperBlocks.DataVis,
@@ -156,18 +175,40 @@ export const notAuditedSuperBlocks: NotAuditedSuperBlocks = {
     SuperBlocks.InfoSec,
     SuperBlocks.MachineLearningPy,
     SuperBlocks.CollegeAlgebraPy,
+    SuperBlocks.FoundationalCSharp,
     SuperBlocks.CodingInterviewPrep,
     SuperBlocks.ProjectEuler,
     SuperBlocks.JsAlgoDataStructNew,
-    SuperBlocks.TheOdinProject
+    SuperBlocks.TheOdinProject,
+    SuperBlocks.UpcomingPython
+  ],
+  [Languages.Swahili]: [
+    SuperBlocks.DataVis,
+    SuperBlocks.RelationalDb,
+    SuperBlocks.BackEndDevApis,
+    SuperBlocks.QualityAssurance,
+    SuperBlocks.SciCompPy,
+    SuperBlocks.DataAnalysisPy,
+    SuperBlocks.InfoSec,
+    SuperBlocks.MachineLearningPy,
+    SuperBlocks.CollegeAlgebraPy,
+    SuperBlocks.FoundationalCSharp,
+    SuperBlocks.CodingInterviewPrep,
+    SuperBlocks.ProjectEuler,
+    SuperBlocks.TheOdinProject,
+    SuperBlocks.RespWebDesign,
+    SuperBlocks.FrontEndDevLibs,
+    SuperBlocks.JsAlgoDataStructNew,
+    SuperBlocks.JsAlgoDataStruct,
+    SuperBlocks.UpcomingPython
   ]
 };
 
 Object.freeze(notAuditedSuperBlocks);
 
 type Config = {
-  showNewCurriculum: string | undefined;
-  showUpcomingChanges: string | undefined;
+  showNewCurriculum: boolean;
+  showUpcomingChanges: boolean;
 };
 
 type LanguagesConfig = Config & {
@@ -181,10 +222,10 @@ export function createSuperBlockMap({
   showUpcomingChanges
 }: Config): SuperBlockOrder {
   const superBlockMap = { ...superBlockOrder };
-  if (showNewCurriculum !== 'true') {
+  if (!showNewCurriculum) {
     superBlockMap[SuperBlockStages.New] = [];
   }
-  if (showUpcomingChanges !== 'true') {
+  if (!showUpcomingChanges) {
     superBlockMap[SuperBlockStages.Upcoming] = [];
   }
   return superBlockMap;
@@ -195,10 +236,10 @@ export function createFlatSuperBlockMap({
   showUpcomingChanges
 }: Config): SuperBlocks[] {
   const superBlockMap = { ...superBlockOrder };
-  if (showNewCurriculum !== 'true') {
+  if (!showNewCurriculum) {
     superBlockMap[SuperBlockStages.New] = [];
   }
-  if (showUpcomingChanges !== 'true') {
+  if (!showUpcomingChanges) {
     superBlockMap[SuperBlockStages.Upcoming] = [];
   }
   return Object.values(superBlockMap).flat();
@@ -224,8 +265,8 @@ export function getFirstNotAuditedSuperBlock({
 
 export function getAuditedSuperBlocks({
   language = 'english',
-  showNewCurriculum = 'false',
-  showUpcomingChanges = 'false'
+  showNewCurriculum,
+  showUpcomingChanges
 }: LanguagesConfig): SuperBlocks[] {
   if (!Object.prototype.hasOwnProperty.call(notAuditedSuperBlocks, language)) {
     throw Error(`'${language}' key not found in 'notAuditedSuperBlocks'`);

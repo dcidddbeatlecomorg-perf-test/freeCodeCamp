@@ -7,12 +7,7 @@ import { useFeature } from '@growthbook/growthbook-react';
 import { goToAnchor } from 'react-scrollable-anchor';
 import { bindActionCreators, Dispatch, AnyAction } from 'redux';
 import { createSelector } from 'reselect';
-import {
-  modalDefaultDonation,
-  PaymentContext
-} from '../../../../config/donation-settings';
-import Cup from '../../assets/icons/cup';
-import Heart from '../../assets/icons/heart';
+import { PaymentContext } from '../../../../config/donation-settings';
 import BearProgressModal from '../../assets/images/components/bear-progress-modal';
 import BearBlockCompletion from '../../assets/images/components/bear-block-completion-modal';
 
@@ -55,42 +50,16 @@ type DonateModalProps = {
   show: boolean;
 };
 
-const GetCommonDonationText = ({ ctaNumber }: { ctaNumber: number }) => {
-  const { t } = useTranslation();
-  const rotateProgressModalCta = useFeature('progress-modal-cta-rotation').on;
-  if (rotateProgressModalCta)
-    return <b>{t(`donate.progress-modal-cta-${ctaNumber}`)}</b>;
-
-  const donationDuration = modalDefaultDonation.donationDuration;
-  switch (donationDuration) {
-    case 'one-time':
-      return <b>{t('donate.duration')}</b>;
-    case 'month':
-      return <b>{t('donate.duration-2')}</b>;
-    default:
-      return <b>{t('donate.duration-4')}</b>;
-  }
-};
-
 const RenderIlustration = ({
   recentlyClaimedBlock
 }: {
   recentlyClaimedBlock: RecentlyClaimedBlock;
 }) => {
-  const showModalBears = useFeature('show-modal-bears').on;
-  if (showModalBears) {
-    return recentlyClaimedBlock ? (
-      <BearBlockCompletion className='donation-icon' />
-    ) : (
-      <BearProgressModal className='donation-icon' />
-    );
-  } else {
-    return recentlyClaimedBlock ? (
-      <Cup className='donation-icon' />
-    ) : (
-      <Heart className='donation-icon' />
-    );
-  }
+  return recentlyClaimedBlock ? (
+    <BearBlockCompletion className='donation-icon' />
+  ) : (
+    <BearProgressModal className='donation-icon' />
+  );
 };
 
 function getctaNumberBetween1To10() {
@@ -112,6 +81,10 @@ function DonateModal({
   const [showSkipButton, setShowSkipButton] = useState(false);
   const loadElementsIndividually = useFeature('load_elements_individually').on;
   const { t } = useTranslation();
+
+  // test wheather the conversions are being distributed properly
+  useFeature('aa-test-in-component');
+
   const handleProcessing = () => {
     setCloseLabel(true);
   };
@@ -170,7 +143,7 @@ function DonateModal({
                 })}
               </b>
             )}
-            <GetCommonDonationText ctaNumber={ctaNumber} />
+            <b>{t(`donate.progress-modal-cta-${ctaNumber}`)}</b>
           </Col>
         )}
       </Row>
